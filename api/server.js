@@ -10,7 +10,7 @@ const path = require("path")
 const server = require('http').Server(app);
 const websocket = require('socket.io')(server);
 
-// import App
+// Se agrega import para tener acces al servidor de autenticacion
 import appA from '../api/src/app'
 
 // Coneccion a la basde de datos
@@ -38,6 +38,6 @@ websocket.on('connection', function (socket) {
 server.listen(config.PORT, function () {
     console.log(`La aplicacion esta escuchando en http://localhost:${config.PORT}`);
 })
-
+// Se levanta servicio el cual las peticiones seran escuchadas por el puerto 3006 para temas de Autenticacion
 appA.listen(3006)
 console.log('Server listen on port ', 3006)
