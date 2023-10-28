@@ -4,14 +4,18 @@ const body_parser = require('body-parser')
 const config = require('./config')
 const routes = require('./Network/routes')
 const db = require('./db')
+const cors = require('cors');
 /* Creamos una instancia de Frameworf Expres */
 let app = express()
 const path = require("path")
 const server = require('http').Server(app);
 const websocket = require('socket.io')(server);
 
+
 // Se agrega import para tener acces al servidor de autenticacion
 import appA from '../api/src/app'
+// Evita bloqueos
+app.use(cors());
 
 // Coneccion a la basde de datos
 db(config.DB_URL)
