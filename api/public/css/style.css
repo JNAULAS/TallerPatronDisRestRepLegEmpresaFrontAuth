@@ -56,3 +56,14 @@ body {
 
 .warning {background-color: #ff9800;} 
 .warning:hover {background: #e68a00;}
+
+/* Style Divs */
+.styleDivFormLogin {
+    padding-top: 20px;
+    width: 100%; /*Definimos para que nuestro componente ocupe el 100% de la pantalla*/
+    height: 30vh;
+    /*Centrado de elementos, para esto agregamos el display de tipo grid*/
+    display: grid;
+    /* Ya con css grid añadimos un apropiedad para centrar los elementos*/
+    place-items: center;/* Esto permite centrar los elementos tanto verticar como horizontal */
+}
