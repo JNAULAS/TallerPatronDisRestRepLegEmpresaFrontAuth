@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <script type="text/javascript" src="./scriptsAutentication.js"></script>
+    <title>User</title>
+</head>
+<body>
+    <div class="styleDivFormLogin">
+        <div class="styleDivInput">
+            <h1>Autenticación</h1>
+            <label for="labelUserName">User: </label>
+            <input type="text" class="input" id="inputUser" value="" placeholder="usuario">
+            <label for="labelCorreo">Email: </label>
+            <input type="text" class="input" id="inputcorreo" value="" >
+            <label for="labelPassword">Password: </label>
+            <input type="text" class="input" id="inputPassword" value="" placeholder="usuario">
+            <label for="labelListaRoles">Roles: </label>
+            <select name="" id="listaRoles"></select>
+        </div>
+        <br>
+        <div class="">
+            <input type="button" class="btn success" value="Guardar" onclick="handleSaveUser()">
+            <input type="button" class="btn warning" value="Cancelar">
+        </div>
+    </div>
+</body>
+</html>

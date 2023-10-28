@@ -5,6 +5,7 @@ import pkg from '../package.json'
 import { create_roles } from './libs/initialSetup'
 import authRoutes from './routes/auth.routes'
 import userRoutes from './routes/user.routes'
+import rolesRoutes from './routes/roles.routes'
 
 import cors from 'cors'; // Import the cors package
 
@@ -32,5 +33,6 @@ app.use( express.urlencoded({extended:false}) )
 
 app.use('/users', userRoutes)
 app.use('/auth', authRoutes)
+app.use('/roles', rolesRoutes)
 
 export default app
