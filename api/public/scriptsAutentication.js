@@ -64,9 +64,9 @@ async function getListRoles() {
     const dataRetun = await getApi('GET', `${urlServer}${pathRoles}`);
     console.log(JSON.stringify(dataRetun))
     // Recorre lista que retorna el servicio
-    dataRetun.body.forEach(element => {
+    dataRetun.list_roles.forEach(element => {
         var option = document.createElement("option");
-        option.text = element.nombre
+        option.text = element.name
         option.value = element._id
         listItemFront.add(option)
     });
@@ -77,7 +77,11 @@ async function handleSaveUser() {
     const paramUser = document.getElementById('inputUser').value
     const paramCorreo = document.getElementById('inputcorreo').value
     const paramPassword = document.getElementById('inputPassword').value
-    //const paramRol = document.getElementById('inputcorreo').value
+    var listItemFront = document.getElementById("listaRoles")
+    // Obtener el índice del elemento seleccionado
+    var selectedIndex = selectElement.selectedIndex;
+    // Obtener el elemento seleccionado
+    var selectedOption = selectElement.options[selectedIndex];
 
     // Control de ingreso de informcion
     if (paramUser == '' || paramPassword == '') {
@@ -90,7 +94,7 @@ async function handleSaveUser() {
         username: paramUser,
         email: paramCorreo,
         password: paramPassword,
-        roles: 'administrador'
+        roles: selectedOption.name //'administrador'
     }
     console.log(param)
     const dataRetun = await getApi('POST', `${urlServer}${pathCreacionUsuario}`, param);
@@ -106,3 +110,7 @@ async function handleSaveUser() {
     }
 */
 }
+// Ejecuciones automaticas
+document.addEventListener("DOMContentLoaded", function () {
+    getListRoles();
+});
