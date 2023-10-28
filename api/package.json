@@ -1,0 +1,34 @@
+{
+  "name": "websocket-auth-api-ws",
+  "version": "1.0.0",
+  "description": "Proyecto que cumple dos partes 1) Back para registro de empresa y representante legal y 2) Pantalla de visualizacion para implementar parte visual para patron websocket + Autenticacion",
+  "main": "server.js",
+  "scripts": {
+    "build": "babel --out-dir build",
+    "start": "nodemon server.js --exec babel-node",
+    "node": "node build/server.js"
+  },
+  "author": "j.naulas",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "http": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.6.2",
+    "moongose": "^1.0.0",
+    "morgan": "^1.10.0",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.2",
+    "@babel/node": "^7.22.19",
+    "@babel/preset-env": "^7.23.2",
+    "nodemon": "^3.0.1"
+  }
+}
