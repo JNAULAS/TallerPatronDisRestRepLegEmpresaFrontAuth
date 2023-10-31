@@ -38,20 +38,31 @@ async function login() {
         alert('Los campos no pueden estar vación ingrese la información necesaria')
         return false
     }
-    console.log('Antes del param')
-    // Arma Json de consulta
+    // 1. Identificación
     const param = {
         email: paramUser,
         password: paramPassword
     }
-    console.log(param)
-    const dataRetun = await getApi('POST', `${urlServer}${path}`, param);
-    if (dataRetun.token != '') {
-        console.log(dataRetun)
-        //alert(`Representante Legal registrado con exito para la empresa: ${dataRetun.token}`)
-        window.location.href = './legalRepresentative.html';
-    } else {
-        alert(dataRetun.erorr)
+    try {
+
+        // 2. Autenticación
+        const dataRetun = await getApi('POST', `${urlServer}${path}`, param);
+        if (dataRetun.token != '') {
+            console.log(dataRetun)
+
+            // Autorización
+            window.location.href = './legalRepresentative.html';
+        }
+
+    } catch (error) {
+        console.log('Datos de cash')
+        if (error.includes('Error en la solicitud: 401 - Unauthorized')) {
+            alert('Acceso no permitido solicite los permisos necesarios')//
+        } else if (error.includes('Error en la solicitud: 400 - Bad Request')) {
+            alert('Se ha producido un error en el sistema, por favor notifique el administrador')
+        }
+
+        console.log(error)
     }
 
 }
@@ -75,40 +86,39 @@ async function getListRoles() {
 async function handleSaveUser() {
     // Get value input Representate Legal
     const paramUser = document.getElementById('inputUser').value
-    const paramCorreo = document.getElementById('inputcorreo').value
     const paramPassword = document.getElementById('inputPassword').value
-    var listItemFront = document.getElementById("listaRoles")
+    const paramNombres = document.getElementById('inputNombres').value
+    const paramApellidos = document.getElementById('inputApellidos').value
+    const paramCorreo = document.getElementById('inputcorreo').value
+    const paramListRoles = document.getElementById("listaRoles")
     // Obtener el índice del elemento seleccionado
-    var selectedIndex = selectElement.selectedIndex;
-    // Obtener el elemento seleccionado
-    var selectedOption = selectElement.options[selectedIndex];
+    const selectedOption = paramListRoles.options[paramListRoles.selectedIndex]
+    const nameRol = selectedOption.text;
+    console.log('Datos de la lista')
+    console.log(nameRol)
 
     // Control de ingreso de informcion
-    if (paramUser == '' || paramPassword == '') {
-        alert('Los campos no pueden estar vación ingrese la información necesaria')
+    if (paramUser == '' || paramPassword == '' || paramNombres == '' || paramApellidos == '' || paramCorreo == '') {
+        alert('Los campos no pueden estar vacios ingrese la información necesaria para continuar.')
         return false
     }
     console.log('Antes del param')
     // Arma Json de consulta
     const param = {
         username: paramUser,
-        email: paramCorreo,
         password: paramPassword,
-        roles: selectedOption.name //'administrador'
+        name: paramNombres,
+        lastName: paramApellidos,
+        email: paramCorreo,
+        roles: nameRol //'administrador'
     }
-    console.log(param)
-    const dataRetun = await getApi('POST', `${urlServer}${pathCreacionUsuario}`, param);
-    console.log('Datos retorno')
-    console.log(dataRetun)
-    /*
-    if (dataRetun != '') {
-        console.log(dataRetun)
-        //alert(`Representante Legal registrado con exito para la empresa: ${dataRetun.token}`)
-        window.location.href = './legalRepresentative.html';
-    } else {
-        alert(dataRetun.erorr)
+    try {
+        const dataRetun = await getApi('POST', `${urlServer}${pathCreacionUsuario}`, param);
+        alert(`Bienvenido ${dataRetun.name + ' ' + dataRetun.lastName + ' '}, su usuario asignado es: ${dataRetun.username} `)
+    } catch (error) {
+        alert('Error en registro de Usuario.')
     }
-*/
+
 }
 // Ejecuciones automaticas
 document.addEventListener("DOMContentLoaded", function () {
