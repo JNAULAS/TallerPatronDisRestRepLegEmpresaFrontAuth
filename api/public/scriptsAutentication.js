@@ -4,8 +4,12 @@ let path = '/auth/signin'
 let pathConsultaRoles = '/auth/signin'
 let pathCreacionUsuario = '/users'
 let pathRoles = '/roles'
+// Valida tocken
+let pathTockenValido = '/tockenVerifica/verifica'
+
+let almacenaTocken = '';
 // Se crea api generica para cunsumir servicios rest
-async function getApi(paramMethod, paramUrl, paramBody) {
+async function getApi(paramMethod, paramUrl, paramBody, tocken) {
     console.log('URL ACCESO API')
     console.log(paramUrl)
     let data
@@ -13,15 +17,37 @@ async function getApi(paramMethod, paramUrl, paramBody) {
         method: paramMethod,//'POST', 'GET' / 'PUT'
         headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
-            mode: 'no-cors',
+            'Content-Type': 'application/json'
         },
         body: paramBody ? JSON.stringify(paramBody) : null,
     };
+    console.log('tockens almacenado')
+    console.log(almacenaTocken)
+    const requestOptionsTockens = {
+        method: paramMethod,//'POST', 'GET' / 'PUT'
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'x-access-token': almacenaTocken
+        },
+        body: paramBody ? JSON.stringify(paramBody) : null,
+    };
+    const requestFinal = almacenaTocken === '' ? requestOptions : requestOptionsTockens
 
-    const res = await fetch(paramUrl, requestOptions)
+    const res = await fetch(paramUrl, requestFinal)
     if (!res.ok) {
-        throw new Error(`Error en la solicitud: ${res.status} - ${res.statusText}`);
+        console.log('Informacion de rest')
+        console.log(res)
+        //throw new Error(`Error en la solicitud: ${res.status} - ${res.statusText}`);
+        if (res.status === 401) {
+            throw new Error('Acceso no permitido.');
+        } else if (res.status === 400) {
+            throw new Error('Se ha producido un error en el sistema.');
+        } else if (res.status === 403) {
+            throw new Error('Rol no asignado.');
+        } else {
+            throw new Error(`Error en la solicitud: ${res.status} - ${res.statusText}`);
+        }
     }
     data = await res.json()
     return data
@@ -35,7 +61,7 @@ async function login() {
 
     // Control de ingreso de informcion
     if (paramUser == '' || paramPassword == '') {
-        alert('Los campos no pueden estar vación ingrese la información necesaria')
+        alert('Los campos no pueden estar vaciós ingrese la información necesaria')
         return false
     }
     // 1. Identificación
@@ -48,21 +74,29 @@ async function login() {
         // 2. Autenticación
         const dataRetun = await getApi('POST', `${urlServer}${path}`, param);
         if (dataRetun.token != '') {
-            console.log(dataRetun)
+            almacenaTocken = dataRetun.token;
+            // Verifica validez del tocken
+            const tockenValido = await getApi('GET', `${urlServer}${pathTockenValido}`);
+            console.log('Verifica tockes varificado ')
+            console.log(tockenValido)
+
 
             // Autorización
             window.location.href = './legalRepresentative.html';
         }
 
     } catch (error) {
-        console.log('Datos de cash')
-        if (error.includes('Error en la solicitud: 401 - Unauthorized')) {
-            alert('Acceso no permitido solicite los permisos necesarios')//
-        } else if (error.includes('Error en la solicitud: 400 - Bad Request')) {
-            alert('Se ha producido un error en el sistema, por favor notifique el administrador')
-        }
+        console.error('Error durante la autenticación:', error.message);
 
-        console.log(error)
+        if (error.message === 'Acceso no permitido.') {
+            alert('Acceso no permitido. Solicite los permisos necesarios');
+        } else if (error.message === 'Se ha producido un error en el sistema.') {
+            alert('Se ha producido un error en el sistema. Por favor notifique al administrador');
+        } else if (error.message === 'Rol no asignado.') {
+            alert('Usted no cuenta con un Rol de administrador para acceder a este Servicio.');
+        } else {
+            alert('Ocurrió un error inesperado. Por favor, inténtelo nuevamente más tarde.');
+        }
     }
 
 }
@@ -102,7 +136,7 @@ async function handleSaveUser() {
         alert('Los campos no pueden estar vacios ingrese la información necesaria para continuar.')
         return false
     }
-    if(!validarCorreoElectronico(paramCorreo)){
+    if (!validarCorreoElectronico(paramCorreo)) {
         alert('La dirección de correo ingresada es invalida.')
         return false
     }
@@ -129,17 +163,17 @@ document.addEventListener("DOMContentLoaded", function () {
     getListRoles();
 });
 
-const  validarCorreoElectronico = (correo) => {
+const validarCorreoElectronico = (correo) => {
     const regexCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    
+
     // Usamos la función test() para comprobar si el correo cumple con la expresión regular
     if (regexCorreo.test(correo)) {
-      return true; // La dirección de correo es válida
+        return true; // La dirección de correo es válida
     } else {
-      return false; // La dirección de correo no es válida
+        return false; // La dirección de correo no es válida
     }
-  }
+}
 
-  const handleCancelar = () => {
+const handleCancelar = () => {
     window.location.href = './index.html';
-  }
+}
