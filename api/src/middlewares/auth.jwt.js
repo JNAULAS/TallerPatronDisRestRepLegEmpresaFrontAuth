@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken')
 
 import config from '../../../api/config'
-import User from '../models/user'
 import Role from '../models/role'
+import User from '../models/user'
+
 
 export const verify_token = async (req, res, next) => {
     try {
@@ -29,12 +30,13 @@ export const is_admin = async (req, res, next) => {
     const roles = await Role.find({_id: {$in: user.roles}})
 
     for (let i=0; i<roles.length; i++) {
-        if (roles[i].name == 'admin') {
-            next()
-            return 
+        if (roles[i].name == 'administrador') {
+            console.log('Rol retorno ok')
+            //next()
+            return res.status(200).json('OK')
         }
     }
-    return res.status(403).json({message: 'Requer admin role.'})    
+    return res.status(403).json({message: 'Requiere un rol de Administrador para acceder a este servicio.'})    
 }
 
 export const is_moderator = async (req, res, next) => {
@@ -43,9 +45,9 @@ export const is_moderator = async (req, res, next) => {
 
     for (let i=0; i<roles.length; i++) {
         if (roles[i].name == 'moderator') {
-            next()
-            return 
+            //next()
+            return res.status(200).json('OK')
         }
     }
-    return res.status(403).json({message: 'Requer moderator role.'})    
+    return res.status(403).json({message: 'Requiere un rol de modrador para acceder a este servicio.'})    
 }
