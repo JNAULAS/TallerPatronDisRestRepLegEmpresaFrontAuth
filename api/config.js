@@ -1,5 +1,5 @@
 const config = {
-    PORT:3000,
+    PORT:3001,
     SECRET:'INEXCELSISDEO',
     // Home
     //DB_URL: 'mongodb+srv://juangnssudamericano:ycntwg3bUtHrQikT@cluster0.2rah27u.mongodb.net/?retryWrites=true&w=majority'
