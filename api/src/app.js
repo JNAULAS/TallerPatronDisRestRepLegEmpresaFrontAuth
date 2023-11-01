@@ -1,7 +1,7 @@
 import express from 'express'
 import morgan from 'morgan'
 import pkg from '../package.json'
-
+import { create_roles } from './libs/initialSetup'
 import authRoutes from './routes/auth.routes'
 import rolesRoutes from './routes/roles.routes'
 import userRoutes from './routes/user.routes'
@@ -10,7 +10,7 @@ import cors from 'cors'; // Import the cors package
 
 
 const app = express()
-//create_roles()
+create_roles()
 
 app.set('pkg', pkg)
 app.use(morgan('dev'))

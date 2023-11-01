@@ -1,6 +1,6 @@
 
 // URL del server
-const urlServer = 'http://localhost:3001/'
+const urlServer = 'http://localhost:3000/'
 // Se crea api generica para cunsumir servicios rest
 async function getApi(paramMethod, paramUrl, paramBody) {
     console.log('URL ACCESO API')
@@ -138,7 +138,8 @@ async function saveRepresentante() {
     const dataRetun = await getApi('POST', `${urlServer}${path}`, param);
 
     if (!dataRetun.erorr) {
-        alert(`Representante Legal registrado con exito para la empresa: ${dataRetun.body.nombre + ' ' + dataRetun.body.apellido}`)
+        //alert(`Representante Legal registrado con exito para la empresa: ${dataRetun.body.nombre + ' ' + dataRetun.body.apellido}`)
+        alert(`Representante Legal registrado con exito.`)
     } else {
         alert(dataRetun.erorr)
     }
