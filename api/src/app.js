@@ -2,10 +2,9 @@ import express from 'express'
 import morgan from 'morgan'
 import pkg from '../package.json'
 
-import { create_roles } from './libs/initialSetup'
 import authRoutes from './routes/auth.routes'
-import userRoutes from './routes/user.routes'
 import rolesRoutes from './routes/roles.routes'
+import userRoutes from './routes/user.routes'
 
 import cors from 'cors'; // Import the cors package
 
@@ -32,7 +31,8 @@ app.use( express.json() )
 app.use( express.urlencoded({extended:false}) )
 
 app.use('/users', userRoutes)
-app.use('/auth', authRoutes)
 app.use('/roles', rolesRoutes)
+app.use('/auth', authRoutes)
+app.use('/tockenVerifica', authRoutes)
 
 export default app
