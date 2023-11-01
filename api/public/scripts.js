@@ -1,6 +1,6 @@
 
 // URL del server
-const urlServer = 'http://localhost:3000/'
+const urlServer = 'http://localhost:3001/'
 // Se crea api generica para cunsumir servicios rest
 async function getApi(paramMethod, paramUrl, paramBody) {
     console.log('URL ACCESO API')

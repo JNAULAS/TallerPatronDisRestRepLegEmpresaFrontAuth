@@ -102,6 +102,10 @@ async function handleSaveUser() {
         alert('Los campos no pueden estar vacios ingrese la información necesaria para continuar.')
         return false
     }
+    if(!validarCorreoElectronico(paramCorreo)){
+        alert('La dirección de correo ingresada es invalida.')
+        return false
+    }
     console.log('Antes del param')
     // Arma Json de consulta
     const param = {
@@ -124,3 +128,18 @@ async function handleSaveUser() {
 document.addEventListener("DOMContentLoaded", function () {
     getListRoles();
 });
+
+const  validarCorreoElectronico = (correo) => {
+    const regexCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    
+    // Usamos la función test() para comprobar si el correo cumple con la expresión regular
+    if (regexCorreo.test(correo)) {
+      return true; // La dirección de correo es válida
+    } else {
+      return false; // La dirección de correo no es válida
+    }
+  }
+
+  const handleCancelar = () => {
+    window.location.href = './index.html';
+  }
